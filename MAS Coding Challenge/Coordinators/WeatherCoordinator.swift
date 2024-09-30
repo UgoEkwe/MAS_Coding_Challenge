@@ -8,9 +8,10 @@
 import SwiftUI
 import Combine
 
-class WeatherCoordinator: ObservableObject {
+class WeatherCoordinator: ObservableObject, WeatherViewModelDelegate {
     private let weatherService: WeatherServiceProtocol
     private let locationManager: LocationManager
+    private let maxRecentSearches = 5
     
     init(weatherService: WeatherServiceProtocol = WeatherService(), locationManager: LocationManager = LocationManager()) {
         self.weatherService = weatherService
@@ -19,6 +20,7 @@ class WeatherCoordinator: ObservableObject {
     
     func start() -> some View {
         let viewModel = WeatherViewModel(weatherService: weatherService, locationManager: locationManager)
+        viewModel.delegate = self
         
         Task { @MainActor in
             await loadWeather(viewModel: viewModel)
@@ -27,15 +29,20 @@ class WeatherCoordinator: ObservableObject {
         return WeatherView(viewModel: viewModel)
     }
     
+    func didFetchWeather(lat: Double, lon: Double) {
+        addRecentSearch(lat: lat, lon: lon)
+    }
+    
     @MainActor
     private func loadWeather(viewModel: WeatherViewModel) async {
-        let lastLat = UserDefaults.standard.double(forKey: "lastSearchLat")
-        let lastLon = UserDefaults.standard.double(forKey: "lastSearchLon")
+        let recentSearches = getRecentSearches()
         
-        if lastLat != 0 && lastLon != 0 {
-            let lastCity = City(name: "", country: "", state: "", lat: lastLat, lon: lastLon)
-            await viewModel.fetchWeather(for: lastCity)
-        } else {
+        for search in recentSearches.reversed() {
+            let city = City(name: "", country: "", state: "", lat: search.lat, lon: search.lon)
+            await viewModel.fetchWeather(for: city)
+        }
+        
+        if recentSearches.isEmpty {
             await loadWeatherForCurrentLocation(viewModel: viewModel)
         }
     }
@@ -56,6 +63,35 @@ class WeatherCoordinator: ObservableObject {
                     continuation.resume()
                 }
             }
+        }
+    }
+}
+
+extension WeatherCoordinator {
+    private func getRecentSearches() -> [RecentSearch] {
+        if let data = UserDefaults.standard.data(forKey: "recentSearches"),
+           let searches = try? JSONDecoder().decode([RecentSearch].self, from: data) {
+            return searches
+        }
+        return []
+    }
+    
+    func addRecentSearch(lat: Double, lon: Double) {
+        var searches = getRecentSearches()
+        let newSearch = RecentSearch(lat: lat, lon: lon, timestamp: Date())
+        
+        if let index = searches.firstIndex(where: { $0.lat == lat && $0.lon == lon }) {
+            searches.remove(at: index)
+        }
+        
+        searches.insert(newSearch, at: 0)
+        
+        if searches.count > maxRecentSearches {
+            searches = Array(searches.prefix(maxRecentSearches))
+        }
+        
+        if let encoded = try? JSONEncoder().encode(searches) {
+            UserDefaults.standard.set(encoded, forKey: "recentSearches")
         }
     }
 }

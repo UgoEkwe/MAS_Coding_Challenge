@@ -9,27 +9,28 @@ import SwiftUI
 
 struct WeatherView: View {
     @StateObject var viewModel: WeatherViewModel
-    
+    @AppStorage("selectedSystem") private var selectedSystem: String = "metric"
+
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                Spacer()
                 Button {
+                    selectedSystem = selectedSystem == "imperial" ? "metric" : "imperial"
                 } label: {
-                    Text("°F")
-                        .foregroundStyle(Color.white)
+                    Text(selectedSystem == "imperial" ? "°F" : "°C")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundStyle(.black)
                 }
             }
             .padding()
-            Spacer()
+
             if let weather = viewModel.weather {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(weather.name)
-                    Text("Temperature: \(weather.main.temp, specifier: "%.1f")°C")
-                    
-                }
-                Text("Conditions: \(weather.weather.first?.description ?? "")")
+                CurrentWeatherView(weather: weather, system: selectedSystem, color: Constants.magicGrey)
+            }
+            
+            if !viewModel.recentSearches.isEmpty {
+                RecentForecastsView(forecasts: viewModel.recentSearches, system: selectedSystem)
             }
 
             if let errorMessage = viewModel.errorMessage {
@@ -37,33 +38,45 @@ struct WeatherView: View {
                     .foregroundColor(.red)
                     .padding()
             }
+            
             Spacer()
         }
-        .overlay{
-            VStack {
-                TextField("Search for a city", text: $viewModel.query)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                if !viewModel.suggestions.isEmpty {
-                    List(viewModel.suggestions) { city in
-                        Button(action: {
-                            Task {
-                                hideKeyboard()
-                                await viewModel.fetchWeather(for: city)
-                            }
-                        }) {
-                            HStack {
-                                Text(city.name)
-                                Spacer()
-                                Text(city.country)
-                            }
-                        }
-                    }
-                    .listStyle(PlainListStyle())
+        .overlay(SearchOverlay(viewModel: viewModel))
+        .padding()
+    }
+}
+
+struct CurrentWeatherView: View {
+    let weather: WeatherResponse
+    let system: String
+    let color: Color
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(weather.name)
+                .font(.largeTitle)
+            HStack {
+                Text(String(format: "%.1f°", weather.main.temp.convertTemperature(system: system)))
+                    .font(.system(size: 60))
+                Spacer()
+                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(weather.weather.first?.icon ?? "")@2x.png")) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
                 }
+                .frame(width: 80, height: 80)
             }
+            Text(weather.weather.first?.description.capitalized ?? "")
+                .font(.title2)
+            HStack {
+                Label("Feels like \(String(format: "%.1f°", weather.main.feelsLike.convertTemperature(system: system)))", systemImage: "thermometer")
+                Spacer()
+                Label("\(weather.main.humidity)%", systemImage: "humidity")
+            }
+            .font(.subheadline)
         }
         .padding()
+        .background(color)
+        .cornerRadius(10)
     }
 }

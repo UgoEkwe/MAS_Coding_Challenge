@@ -15,3 +15,9 @@ extension View {
     }
 }
 #endif
+
+extension Double {
+    func convertTemperature(system: String) -> Double {
+        return system == "imperial" ? Double(self) * 9/5 + 32 : Double(self)
+    }
+}

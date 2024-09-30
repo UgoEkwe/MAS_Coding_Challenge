@@ -7,6 +7,13 @@
 
 import Foundation
 
+//MARK: Storing recent seacrhes
+struct RecentSearch: Codable {
+    let lat: Double
+    let lon: Double
+    let timestamp: Date
+}
+
 //MARK: City model bazsed on API response
 struct City: Identifiable, Decodable {
     var id: String { "\(name),\(country)" }
