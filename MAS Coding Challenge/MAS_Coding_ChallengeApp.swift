@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct MAS_Coding_ChallengeApp: App {
+struct WeatherApp: App {
+    private let coordinator = WeatherCoordinator()
+    @AppStorage ("selectedSystem") private var selectedSystem: String = "imperial"
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            coordinator.start()
         }
     }
 }
