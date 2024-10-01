@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
-    private let coordinator = WeatherCoordinator()
+    @StateObject var coordinator = WeatherCoordinator()
 
     var body: some Scene {
         WindowGroup {

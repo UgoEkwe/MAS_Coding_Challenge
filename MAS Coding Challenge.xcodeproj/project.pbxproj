@@ -13,6 +13,9 @@
 		7B09FD472CAB3557001D7851 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B09FD462CAB3557001D7851 /* Extensions.swift */; };
 		7B09FD492CAB565A001D7851 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B09FD482CAB565A001D7851 /* APIKeys.plist */; };
 		7B09FD4B2CAB5679001D7851 /* KeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B09FD4A2CAB5679001D7851 /* KeyManager.swift */; };
+		7B104BD92CAB769C00D21385 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B104BD82CAB769C00D21385 /* SearchBarView.swift */; };
+		7B104BDB2CAB77A700D21385 /* WeatherCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B104BDA2CAB77A700D21385 /* WeatherCardView.swift */; };
+		7B104BDE2CAB7C9200D21385 /* LocationPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B104BDD2CAB7C9200D21385 /* LocationPermission.swift */; };
 		7B76CEC52CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEC42CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift */; };
 		7B76CEC92CAB13A000A1EDDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B76CEC82CAB13A000A1EDDA /* Assets.xcassets */; };
 		7B76CECC2CAB13A000A1EDDA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B76CECB2CAB13A000A1EDDA /* Preview Assets.xcassets */; };
@@ -51,6 +54,9 @@
 		7B09FD462CAB3557001D7851 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7B09FD482CAB565A001D7851 /* APIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		7B09FD4A2CAB5679001D7851 /* KeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyManager.swift; sourceTree = "<group>"; };
+		7B104BD82CAB769C00D21385 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		7B104BDA2CAB77A700D21385 /* WeatherCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardView.swift; sourceTree = "<group>"; };
+		7B104BDD2CAB7C9200D21385 /* LocationPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermission.swift; sourceTree = "<group>"; };
 		7B76CEC12CAB139E00A1EDDA /* MAS Coding Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAS Coding Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B76CEC42CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAS_Coding_ChallengeApp.swift; sourceTree = "<group>"; };
 		7B76CEC82CAB13A000A1EDDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +106,14 @@
 				7B09FD4A2CAB5679001D7851 /* KeyManager.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7B104BDC2CAB7C6C00D21385 /* UtilityViews */ = {
+			isa = PBXGroup;
+			children = (
+				7B104BDD2CAB7C9200D21385 /* LocationPermission.swift */,
+			);
+			path = UtilityViews;
 			sourceTree = "<group>";
 		};
 		7B76CEB82CAB139E00A1EDDA = {
@@ -193,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				7B09FD412CAB2110001D7851 /* WeatherView.swift */,
+				7B104BDC2CAB7C6C00D21385 /* UtilityViews */,
 				7B8CED432CAB606D0079C1CC /* WeatherViewHelpers */,
 				7B8CED422CAB60630079C1CC /* Overlays */,
 			);
@@ -219,6 +234,7 @@
 		7B8CED422CAB60630079C1CC /* Overlays */ = {
 			isa = PBXGroup;
 			children = (
+				7B104BD82CAB769C00D21385 /* SearchBarView.swift */,
 				7B8CED462CAB67140079C1CC /* SearchOverlay.swift */,
 			);
 			path = Overlays;
@@ -228,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				7B8CED442CAB60990079C1CC /* RecentForecastsVeiw.swift */,
+				7B104BDA2CAB77A700D21385 /* WeatherCardView.swift */,
 			);
 			path = WeatherViewHelpers;
 			sourceTree = "<group>";
@@ -363,6 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B104BD92CAB769C00D21385 /* SearchBarView.swift in Sources */,
 				7B76CEF92CAB1B1000A1EDDA /* WeatherService.swift in Sources */,
 				7B8CED412CAB5B210079C1CC /* Constants.swift in Sources */,
 				7B76CEF52CAB197400A1EDDA /* LocationManager.swift in Sources */,
@@ -373,8 +391,10 @@
 				7B09FD422CAB2110001D7851 /* WeatherView.swift in Sources */,
 				7B76CEF72CAB1AAA00A1EDDA /* WeatherCoordinator.swift in Sources */,
 				7B09FD402CAB1CD0001D7851 /* WeatherModel.swift in Sources */,
+				7B104BDB2CAB77A700D21385 /* WeatherCardView.swift in Sources */,
 				7B8CED472CAB67140079C1CC /* SearchOverlay.swift in Sources */,
 				7B8CED452CAB60990079C1CC /* RecentForecastsVeiw.swift in Sources */,
+				7B104BDE2CAB7C9200D21385 /* LocationPermission.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +561,9 @@
 				DEVELOPMENT_TEAM = 62RA2G4HF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -570,6 +593,9 @@
 				DEVELOPMENT_TEAM = 62RA2G4HF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -12,16 +12,14 @@ struct SearchOverlay: View {
 
     var body: some View {
         VStack {
-            TextField("Search for a city", text: $viewModel.query)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
             if !viewModel.suggestions.isEmpty {
                 List(viewModel.suggestions) { city in
                     Button(action: {
                         Task {
                             hideKeyboard()
                             await viewModel.fetchWeather(for: city)
+                            viewModel.suggestions = []
+                            viewModel.query = ""
                         }
                     }) {
                         HStack {
@@ -40,6 +38,6 @@ struct SearchOverlay: View {
             }
             Spacer()
         }
-        .padding(.top, 30)
+        .padding(.top, 50)
     }
 }

@@ -7,91 +7,85 @@
 
 import SwiftUI
 import Combine
-
+import CoreLocation
 class WeatherCoordinator: ObservableObject, WeatherViewModelDelegate {
+    @Published var showingPermissionView = false
+    @Published var weatherViewModel: WeatherViewModel?
+    
     private let weatherService: WeatherServiceProtocol
     private let locationManager: LocationManager
-    private let maxRecentSearches = 5
+    private var cancellables = Set<AnyCancellable>()
     
     init(weatherService: WeatherServiceProtocol = WeatherService(), locationManager: LocationManager = LocationManager()) {
         self.weatherService = weatherService
         self.locationManager = locationManager
+        
+        setupLocationStatusObserver()
+    }
+    
+    private func setupLocationStatusObserver() {
+        locationManager.$authorizationStatus
+            .sink { [weak self] status in
+                switch status {
+                case .notDetermined:
+                    self?.showingPermissionView = true
+                case .restricted, .denied:
+                    self?.showingPermissionView = false
+                    self?.loadWeatherForMajorCities()
+                case .authorizedWhenInUse, .authorizedAlways:
+                    self?.showingPermissionView = false
+                    self?.loadWeatherForCurrentLocation()
+                @unknown default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func start() -> some View {
-        let viewModel = WeatherViewModel(weatherService: weatherService, locationManager: locationManager)
-        viewModel.delegate = self
-        
-        Task { @MainActor in
-            await loadWeather(viewModel: viewModel)
+        Group {
+            if showingPermissionView {
+                LocationPermissionView(locationManager: locationManager)
+            } else if let viewModel = weatherViewModel {
+                WeatherView(viewModel: viewModel)
+                    .task {
+                        await viewModel.loadLastSearchWeather()
+                    }
+            }
         }
-        
-        return WeatherView(viewModel: viewModel)
     }
     
     func didFetchWeather(lat: Double, lon: Double) {
-        addRecentSearch(lat: lat, lon: lon)
+        weatherViewModel?.updateLastSearch(lat: lat, lon: lon)
     }
     
-    @MainActor
-    private func loadWeather(viewModel: WeatherViewModel) async {
-        let recentSearches = getRecentSearches()
-        
-        for search in recentSearches.reversed() {
-            let city = City(name: "", country: "", state: "", lat: search.lat, lon: search.lon)
-            await viewModel.fetchWeather(for: city)
-        }
-        
-        if recentSearches.isEmpty {
-            await loadWeatherForCurrentLocation(viewModel: viewModel)
+    private func loadWeatherForCurrentLocation() {
+        Task { @MainActor in
+            do {
+                let location = try await locationManager.getCurrentLocation()
+                createAndConfigureViewModel()
+                await weatherViewModel?.fetchWeatherForCurrentLocation()
+            } catch {
+                print("Failed to get current location: \(error.localizedDescription)")
+                loadWeatherForMajorCities()
+            }
         }
     }
     
-    @MainActor
-    private func loadWeatherForCurrentLocation(viewModel: WeatherViewModel) async {
-        await withCheckedContinuation { continuation in
-            locationManager.requestLocationPermission { granted in
-                if granted {
-                    self.locationManager.getUserLocation { location in
-                        Task {
-                            await viewModel.fetchWeatherForLocation(location)
-                            continuation.resume()
-                        }
-                    }
-                } else {
-                    viewModel.setError(LocationError.permissionDenied)
-                    continuation.resume()
+    private func loadWeatherForMajorCities() {
+        Task { @MainActor in
+            createAndConfigureViewModel()
+            for city in Constants.majorCities {
+                await weatherViewModel?.fetchWeather(for: city)
+                if weatherViewModel?.currentWeather != nil {
+                    break
                 }
             }
         }
     }
-}
-
-extension WeatherCoordinator {
-    private func getRecentSearches() -> [RecentSearch] {
-        if let data = UserDefaults.standard.data(forKey: "recentSearches"),
-           let searches = try? JSONDecoder().decode([RecentSearch].self, from: data) {
-            return searches
-        }
-        return []
-    }
     
-    func addRecentSearch(lat: Double, lon: Double) {
-        var searches = getRecentSearches()
-        let newSearch = RecentSearch(lat: lat, lon: lon, timestamp: Date())
-        
-        if let index = searches.firstIndex(where: { $0.lat == lat && $0.lon == lon }) {
-            searches.remove(at: index)
-        }
-        
-        searches.insert(newSearch, at: 0)
-        
-        if searches.count > maxRecentSearches {
-            searches = Array(searches.prefix(maxRecentSearches))
-        }
-        
-        if let encoded = try? JSONEncoder().encode(searches) {
-            UserDefaults.standard.set(encoded, forKey: "recentSearches")
-        }
+    private func createAndConfigureViewModel() {
+        weatherViewModel = WeatherViewModel(weatherService: weatherService, locationManager: locationManager)
+        weatherViewModel?.delegate = self
     }
 }

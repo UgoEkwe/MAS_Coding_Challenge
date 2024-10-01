@@ -47,14 +47,12 @@ class WeatherService: WeatherServiceProtocol {
     }
     
     func fetchWeather(for city: City) async throws -> WeatherResponse {
-        let system = UserDefaults.standard.string(forKey: "selectedSystem")
-        let urlString = "\(baseURL)/data/2.5/weather?lat=\(city.lat)&lon=\(city.lon)&appid=\(apiKey)&units=\(system ?? "imperial")"
+        let urlString = "\(baseURL)/data/2.5/weather?lat=\(city.lat)&lon=\(city.lon)&appid=\(apiKey)&units=metric"
         return try await fetchWeather(from: urlString)
     }
     
     func fetchWeather(for location: CLLocation) async throws -> WeatherResponse {
-        let system = UserDefaults.standard.string(forKey: "selectedSystem")
-        let urlString = "\(baseURL)/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=\(apiKey)&units=\(system ?? "imperial")"
+        let urlString = "\(baseURL)/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&appid=\(apiKey)&units=metric"
         return try await fetchWeather(from: urlString)
     }
     
@@ -65,11 +63,9 @@ class WeatherService: WeatherServiceProtocol {
         
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
-            
             guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
                 throw WeatherError.invalidResponse
             }
-            
             let decoder = JSONDecoder()
             return try decoder.decode(WeatherResponse.self, from: data)
         } catch let error as DecodingError {

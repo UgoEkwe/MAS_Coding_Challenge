@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import SwiftUI
 
 protocol WeatherViewModelDelegate: AnyObject {
     func didFetchWeather(lat: Double, lon: Double)
@@ -17,19 +18,37 @@ class WeatherViewModel: ObservableObject {
     @Published var query = ""
     @Published var suggestions: [City] = []
     @Published var weather: WeatherResponse?
-    @Published var recentSearches: [WeatherResponse] = []
+    @Published var currentWeather: WeatherResponse?
+    @Published var lastSearchWeather: WeatherResponse?
     @Published var errorMessage: String?
+    @AppStorage("lastSearch") private(set) var lastSearch: String = ""
 
     private var cancellables = Set<AnyCancellable>()
-    private let weatherService: WeatherServiceProtocol
+    let weatherService: WeatherServiceProtocol
     private let locationManager: LocationManager
     weak var delegate: WeatherViewModelDelegate?
 
     init(weatherService: WeatherServiceProtocol, locationManager: LocationManager) {
         self.weatherService = weatherService
         self.locationManager = locationManager
+
+        setupLocationObserver()
         setupQueryObserver()
     }
+
+    private func setupLocationObserver() {
+        locationManager.$authorizationStatus
+            .dropFirst()
+            .sink { [weak self] newStatus in
+                if newStatus == .authorizedWhenInUse || newStatus == .authorizedAlways {
+                    Task { @MainActor [weak self] in
+                        await self?.fetchWeatherForCurrentLocation()
+                    }
+                }
+            }
+            .store(in: &cancellables)
+    }
+
     private func setupQueryObserver() {
         $query
             .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
@@ -52,11 +71,7 @@ class WeatherViewModel: ObservableObject {
             suggestions = try await weatherService.fetchGeocodingSuggestions(for: query)
             errorMessage = nil
         } catch {
-            if let weatherError = error as? WeatherError {
-                errorMessage = weatherError.message
-            } else {
-                errorMessage = error.localizedDescription
-            }
+            setError(error)
             suggestions = []
         }
     }
@@ -68,6 +83,16 @@ class WeatherViewModel: ObservableObject {
             updateWeather(newSearch)
             errorMessage = nil
             delegate?.didFetchWeather(lat: city.lat, lon: city.lon)
+        } catch {
+            setError(error)
+        }
+    }
+    
+    @MainActor
+    func fetchWeatherForCurrentLocation() async {
+        do {
+            let location = try await locationManager.getCurrentLocation()
+            self.currentWeather = try await weatherService.fetchWeather(for: location)
         } catch {
             setError(error)
         }
@@ -86,19 +111,31 @@ class WeatherViewModel: ObservableObject {
     }
 
     private func updateWeather(_ newSearch: WeatherResponse) {
-        if weather == nil {
-            weather = newSearch
+        weather = newSearch
+    }
+
+    func updateLastSearch(lat: Double, lon: Double) {
+        lastSearch = "\(lat),\(lon)"
+    }
+
+    @MainActor
+    func loadLastSearchWeather() async {
+        let coordinates = lastSearch.split(separator: ",")
+        if coordinates.count == 2,
+           let lat = Double(coordinates[0]),
+           let lon = Double(coordinates[1]) {
+            do {
+                lastSearchWeather = try await weatherService.fetchWeather(for: CLLocation(latitude: lat, longitude: lon))
+            } catch {
+                print("Failed to load last search weather: \(error)")
+            }
         }
-        if let index = recentSearches.firstIndex(where: { $0.id == newSearch.id }) {
-            recentSearches.remove(at: index)
-        }
-        recentSearches.insert(newSearch, at: 0)
     }
 }
 
 extension WeatherViewModel {
     @MainActor
-    func setError(_ error: Error) {
+    private func setError(_ error: Error) {
         if let weatherError = error as? WeatherError {
             errorMessage = weatherError.message
         } else {

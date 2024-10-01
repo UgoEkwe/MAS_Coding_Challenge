@@ -9,11 +9,12 @@ import SwiftUI
 
 struct WeatherView: View {
     @StateObject var viewModel: WeatherViewModel
-    @AppStorage("selectedSystem") private var selectedSystem: String = "metric"
-
+    @AppStorage("selectedSystem") private var selectedSystem: String = "imperial"
+    
     var body: some View {
         VStack {
             HStack {
+                SearchBarView(searchTerm: $viewModel.query)
                 Spacer()
                 Button {
                     selectedSystem = selectedSystem == "imperial" ? "metric" : "imperial"
@@ -24,59 +25,52 @@ struct WeatherView: View {
                 }
             }
             .padding()
-
-            if let weather = viewModel.weather {
-                CurrentWeatherView(weather: weather, system: selectedSystem, color: Constants.magicGrey)
+            ScrollView (showsIndicators: false) {
+                // would much rather have built a custom alert view for this and inject a description based on the error message
+                if viewModel.errorMessage != nil {
+                    Text("Sorry, we couldn't load the weather for that city. Please try again")
+                        .foregroundColor(.red)
+                        .padding()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                viewModel.errorMessage = nil
+                            }
+                        }
+                }
+                
+                if let currentweather = viewModel.currentWeather {
+                    WeatherCardView(weather: currentweather, system: selectedSystem, color: .black.opacity(0.9))
+                        .foregroundStyle(Color.white)
+                        .overlay (alignment: .topTrailing) {
+                            Button {
+                                Task {
+                                    await viewModel.fetchWeatherForCurrentLocation()
+                                }
+                            } label : {
+                                Image(systemName: "location")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foregroundStyle(Color.blue)
+                                    .padding([.top,.trailing], 10)
+                            }
+                        }
+                }
+                
+                if let selectedWeather = viewModel.weather {
+                    WeatherCardView(weather: selectedWeather, system: selectedSystem, color: Constants.darkBlack)
+                        .foregroundStyle(Color.white)
+                }
+                
+                if let lastWeather = viewModel.lastSearchWeather {
+                    WeatherCardView(weather: lastWeather, system: selectedSystem, color: Constants.darkBlack.opacity(0.8))
+                        .foregroundStyle(Color.white)
+                }
+                
             }
-            
-            if !viewModel.recentSearches.isEmpty {
-                RecentForecastsView(forecasts: viewModel.recentSearches, system: selectedSystem)
-            }
-
-            if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .padding()
-            }
+            .padding(.horizontal)
             
             Spacer()
         }
         .overlay(SearchOverlay(viewModel: viewModel))
-        .padding()
-    }
-}
-
-struct CurrentWeatherView: View {
-    let weather: WeatherResponse
-    let system: String
-    let color: Color
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(weather.name)
-                .font(.largeTitle)
-            HStack {
-                Text(String(format: "%.1f°", weather.main.temp.convertTemperature(system: system)))
-                    .font(.system(size: 60))
-                Spacer()
-                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(weather.weather.first?.icon ?? "")@2x.png")) { image in
-                    image.resizable()
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 80, height: 80)
-            }
-            Text(weather.weather.first?.description.capitalized ?? "")
-                .font(.title2)
-            HStack {
-                Label("Feels like \(String(format: "%.1f°", weather.main.feelsLike.convertTemperature(system: system)))", systemImage: "thermometer")
-                Spacer()
-                Label("\(weather.main.humidity)%", systemImage: "humidity")
-            }
-            .font(.subheadline)
-        }
-        .padding()
-        .background(color)
-        .cornerRadius(10)
+        .ignoresSafeArea(edges: .bottom)
     }
 }
