@@ -8,19 +8,32 @@
 import SwiftUI
 import Combine
 import CoreLocation
-class WeatherCoordinator: ObservableObject, WeatherViewModelDelegate {
+
+/*
+ The WeatherCoordinator class is responsible for managing the flow of the app--I implemented it this way to separate the navigation logic from the view and view model.
+ It uses the Coordinator pattern, which is great for managing complex navigation flows.
+ I'm observing the location authorization status to determine whether to show the main weatherview or the permissionview.
+ This approach keeps the UI responsive to changes in location permissions.
+*/
+class WeatherCoordinator: ObservableObject {
     @Published var showingPermissionView = false
-    @Published var weatherViewModel: WeatherViewModel?
-    
-    private let weatherService: WeatherServiceProtocol
     private let locationManager: LocationManager
     private var cancellables = Set<AnyCancellable>()
     
-    init(weatherService: WeatherServiceProtocol = WeatherService(), locationManager: LocationManager = LocationManager()) {
-        self.weatherService = weatherService
+    init(locationManager: LocationManager = LocationManager()) {
         self.locationManager = locationManager
-        
         setupLocationStatusObserver()
+    }
+    
+    func start(weatherViewModel: WeatherViewModel) -> some View {
+        Group {
+            if showingPermissionView {
+                LocationPermissionView(locationManager: locationManager)
+            } else {
+                WeatherView()
+                    .environmentObject(weatherViewModel)
+            }
+        }
     }
     
     private func setupLocationStatusObserver() {
@@ -31,61 +44,12 @@ class WeatherCoordinator: ObservableObject, WeatherViewModelDelegate {
                     self?.showingPermissionView = true
                 case .restricted, .denied:
                     self?.showingPermissionView = false
-                    self?.loadWeatherForMajorCities()
                 case .authorizedWhenInUse, .authorizedAlways:
                     self?.showingPermissionView = false
-                    self?.loadWeatherForCurrentLocation()
                 @unknown default:
                     break
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    func start() -> some View {
-        Group {
-            if showingPermissionView {
-                LocationPermissionView(locationManager: locationManager)
-            } else if let viewModel = weatherViewModel {
-                WeatherView(viewModel: viewModel)
-                    .task {
-                        await viewModel.loadLastSearchWeather()
-                    }
-            }
-        }
-    }
-    
-    func didFetchWeather(lat: Double, lon: Double) {
-        weatherViewModel?.updateLastSearch(lat: lat, lon: lon)
-    }
-    
-    private func loadWeatherForCurrentLocation() {
-        Task { @MainActor in
-            do {
-                let location = try await locationManager.getCurrentLocation()
-                createAndConfigureViewModel()
-                await weatherViewModel?.fetchWeatherForCurrentLocation()
-            } catch {
-                print("Failed to get current location: \(error.localizedDescription)")
-                loadWeatherForMajorCities()
-            }
-        }
-    }
-    
-    private func loadWeatherForMajorCities() {
-        Task { @MainActor in
-            createAndConfigureViewModel()
-            for city in Constants.majorCities {
-                await weatherViewModel?.fetchWeather(for: city)
-                if weatherViewModel?.currentWeather != nil {
-                    break
-                }
-            }
-        }
-    }
-    
-    private func createAndConfigureViewModel() {
-        weatherViewModel = WeatherViewModel(weatherService: weatherService, locationManager: locationManager)
-        weatherViewModel?.delegate = self
     }
 }

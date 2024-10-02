@@ -19,26 +19,19 @@
 		7B76CEC52CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEC42CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift */; };
 		7B76CEC92CAB13A000A1EDDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B76CEC82CAB13A000A1EDDA /* Assets.xcassets */; };
 		7B76CECC2CAB13A000A1EDDA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B76CECB2CAB13A000A1EDDA /* Preview Assets.xcassets */; };
-		7B76CED62CAB13A000A1EDDA /* MAS_Coding_ChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CED52CAB13A000A1EDDA /* MAS_Coding_ChallengeTests.swift */; };
-		7B76CEE02CAB13A000A1EDDA /* MAS_Coding_ChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEDF2CAB13A000A1EDDA /* MAS_Coding_ChallengeUITests.swift */; };
-		7B76CEE22CAB13A000A1EDDA /* MAS_Coding_ChallengeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEE12CAB13A000A1EDDA /* MAS_Coding_ChallengeUITestsLaunchTests.swift */; };
 		7B76CEF52CAB197400A1EDDA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEF42CAB197400A1EDDA /* LocationManager.swift */; };
 		7B76CEF72CAB1AAA00A1EDDA /* WeatherCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEF62CAB1AAA00A1EDDA /* WeatherCoordinator.swift */; };
 		7B76CEF92CAB1B1000A1EDDA /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B76CEF82CAB1B1000A1EDDA /* WeatherService.swift */; };
 		7B8CED412CAB5B210079C1CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CED402CAB5B210079C1CC /* Constants.swift */; };
-		7B8CED452CAB60990079C1CC /* RecentForecastsVeiw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CED442CAB60990079C1CC /* RecentForecastsVeiw.swift */; };
 		7B8CED472CAB67140079C1CC /* SearchOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8CED462CAB67140079C1CC /* SearchOverlay.swift */; };
+		7BBAC1822CAC74F500EB49DB /* UIKitAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBAC1812CAC74F500EB49DB /* UIKitAlertView.swift */; };
+		7BBAC1842CAC98A700EB49DB /* WeatherViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBAC1832CAC98A700EB49DB /* WeatherViewModelTests.swift */; };
+		7BBAC1862CAC9A4100EB49DB /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBAC1852CAC9A4100EB49DB /* WeatherServiceTests.swift */; };
+		7BBAC1882CACA5F000EB49DB /* WeatherCardSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBAC1872CACA5F000EB49DB /* WeatherCardSkeleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		7B76CED22CAB13A000A1EDDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7B76CEB92CAB139E00A1EDDA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7B76CEC02CAB139E00A1EDDA;
-			remoteInfo = "MAS Coding Challenge";
-		};
-		7B76CEDC2CAB13A000A1EDDA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7B76CEB92CAB139E00A1EDDA /* Project object */;
 			proxyType = 1;
@@ -62,16 +55,15 @@
 		7B76CEC82CAB13A000A1EDDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B76CECB2CAB13A000A1EDDA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7B76CED12CAB13A000A1EDDA /* MAS Coding ChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MAS Coding ChallengeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B76CED52CAB13A000A1EDDA /* MAS_Coding_ChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAS_Coding_ChallengeTests.swift; sourceTree = "<group>"; };
-		7B76CEDB2CAB13A000A1EDDA /* MAS Coding ChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MAS Coding ChallengeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B76CEDF2CAB13A000A1EDDA /* MAS_Coding_ChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAS_Coding_ChallengeUITests.swift; sourceTree = "<group>"; };
-		7B76CEE12CAB13A000A1EDDA /* MAS_Coding_ChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAS_Coding_ChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7B76CEF42CAB197400A1EDDA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7B76CEF62CAB1AAA00A1EDDA /* WeatherCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCoordinator.swift; sourceTree = "<group>"; };
 		7B76CEF82CAB1B1000A1EDDA /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		7B8CED402CAB5B210079C1CC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		7B8CED442CAB60990079C1CC /* RecentForecastsVeiw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentForecastsVeiw.swift; sourceTree = "<group>"; };
 		7B8CED462CAB67140079C1CC /* SearchOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOverlay.swift; sourceTree = "<group>"; };
+		7BBAC1812CAC74F500EB49DB /* UIKitAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitAlertView.swift; sourceTree = "<group>"; };
+		7BBAC1832CAC98A700EB49DB /* WeatherViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModelTests.swift; sourceTree = "<group>"; };
+		7BBAC1852CAC9A4100EB49DB /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
+		7BBAC1872CACA5F000EB49DB /* WeatherCardSkeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardSkeleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,13 +75,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7B76CECE2CAB13A000A1EDDA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7B76CED82CAB13A000A1EDDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -112,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				7B104BDD2CAB7C9200D21385 /* LocationPermission.swift */,
+				7BBAC1872CACA5F000EB49DB /* WeatherCardSkeleton.swift */,
 			);
 			path = UtilityViews;
 			sourceTree = "<group>";
@@ -121,7 +107,6 @@
 			children = (
 				7B76CEC32CAB139E00A1EDDA /* MAS Coding Challenge */,
 				7B76CED42CAB13A000A1EDDA /* MAS Coding ChallengeTests */,
-				7B76CEDE2CAB13A000A1EDDA /* MAS Coding ChallengeUITests */,
 				7B76CEC22CAB139E00A1EDDA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -131,7 +116,6 @@
 			children = (
 				7B76CEC12CAB139E00A1EDDA /* MAS Coding Challenge.app */,
 				7B76CED12CAB13A000A1EDDA /* MAS Coding ChallengeTests.xctest */,
-				7B76CEDB2CAB13A000A1EDDA /* MAS Coding ChallengeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,18 +149,10 @@
 		7B76CED42CAB13A000A1EDDA /* MAS Coding ChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				7B76CED52CAB13A000A1EDDA /* MAS_Coding_ChallengeTests.swift */,
+				7BBAC1832CAC98A700EB49DB /* WeatherViewModelTests.swift */,
+				7BBAC1852CAC9A4100EB49DB /* WeatherServiceTests.swift */,
 			);
 			path = "MAS Coding ChallengeTests";
-			sourceTree = "<group>";
-		};
-		7B76CEDE2CAB13A000A1EDDA /* MAS Coding ChallengeUITests */ = {
-			isa = PBXGroup;
-			children = (
-				7B76CEDF2CAB13A000A1EDDA /* MAS_Coding_ChallengeUITests.swift */,
-				7B76CEE12CAB13A000A1EDDA /* MAS_Coding_ChallengeUITestsLaunchTests.swift */,
-			);
-			path = "MAS Coding ChallengeUITests";
 			sourceTree = "<group>";
 		};
 		7B76CEEE2CAB188700A1EDDA /* Coordinators */ = {
@@ -207,8 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				7B09FD412CAB2110001D7851 /* WeatherView.swift */,
+				7B104BDA2CAB77A700D21385 /* WeatherCardView.swift */,
 				7B104BDC2CAB7C6C00D21385 /* UtilityViews */,
-				7B8CED432CAB606D0079C1CC /* WeatherViewHelpers */,
 				7B8CED422CAB60630079C1CC /* Overlays */,
 			);
 			path = Views;
@@ -236,17 +212,9 @@
 			children = (
 				7B104BD82CAB769C00D21385 /* SearchBarView.swift */,
 				7B8CED462CAB67140079C1CC /* SearchOverlay.swift */,
+				7BBAC1812CAC74F500EB49DB /* UIKitAlertView.swift */,
 			);
 			path = Overlays;
-			sourceTree = "<group>";
-		};
-		7B8CED432CAB606D0079C1CC /* WeatherViewHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				7B8CED442CAB60990079C1CC /* RecentForecastsVeiw.swift */,
-				7B104BDA2CAB77A700D21385 /* WeatherCardView.swift */,
-			);
-			path = WeatherViewHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,24 +255,6 @@
 			productReference = 7B76CED12CAB13A000A1EDDA /* MAS Coding ChallengeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7B76CEDA2CAB13A000A1EDDA /* MAS Coding ChallengeUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7B76CEEB2CAB13A000A1EDDA /* Build configuration list for PBXNativeTarget "MAS Coding ChallengeUITests" */;
-			buildPhases = (
-				7B76CED72CAB13A000A1EDDA /* Sources */,
-				7B76CED82CAB13A000A1EDDA /* Frameworks */,
-				7B76CED92CAB13A000A1EDDA /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7B76CEDD2CAB13A000A1EDDA /* PBXTargetDependency */,
-			);
-			name = "MAS Coding ChallengeUITests";
-			productName = "MAS Coding ChallengeUITests";
-			productReference = 7B76CEDB2CAB13A000A1EDDA /* MAS Coding ChallengeUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -319,10 +269,6 @@
 						CreatedOnToolsVersion = 15.4;
 					};
 					7B76CED02CAB13A000A1EDDA = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = 7B76CEC02CAB139E00A1EDDA;
-					};
-					7B76CEDA2CAB13A000A1EDDA = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = 7B76CEC02CAB139E00A1EDDA;
 					};
@@ -343,7 +289,6 @@
 			targets = (
 				7B76CEC02CAB139E00A1EDDA /* MAS Coding Challenge */,
 				7B76CED02CAB13A000A1EDDA /* MAS Coding ChallengeTests */,
-				7B76CEDA2CAB13A000A1EDDA /* MAS Coding ChallengeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -366,13 +311,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7B76CED92CAB13A000A1EDDA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -383,6 +321,7 @@
 				7B104BD92CAB769C00D21385 /* SearchBarView.swift in Sources */,
 				7B76CEF92CAB1B1000A1EDDA /* WeatherService.swift in Sources */,
 				7B8CED412CAB5B210079C1CC /* Constants.swift in Sources */,
+				7BBAC1882CACA5F000EB49DB /* WeatherCardSkeleton.swift in Sources */,
 				7B76CEF52CAB197400A1EDDA /* LocationManager.swift in Sources */,
 				7B76CEC52CAB139E00A1EDDA /* MAS_Coding_ChallengeApp.swift in Sources */,
 				7B09FD472CAB3557001D7851 /* Extensions.swift in Sources */,
@@ -392,8 +331,8 @@
 				7B76CEF72CAB1AAA00A1EDDA /* WeatherCoordinator.swift in Sources */,
 				7B09FD402CAB1CD0001D7851 /* WeatherModel.swift in Sources */,
 				7B104BDB2CAB77A700D21385 /* WeatherCardView.swift in Sources */,
+				7BBAC1822CAC74F500EB49DB /* UIKitAlertView.swift in Sources */,
 				7B8CED472CAB67140079C1CC /* SearchOverlay.swift in Sources */,
-				7B8CED452CAB60990079C1CC /* RecentForecastsVeiw.swift in Sources */,
 				7B104BDE2CAB7C9200D21385 /* LocationPermission.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,16 +341,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B76CED62CAB13A000A1EDDA /* MAS_Coding_ChallengeTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7B76CED72CAB13A000A1EDDA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7B76CEE22CAB13A000A1EDDA /* MAS_Coding_ChallengeUITestsLaunchTests.swift in Sources */,
-				7B76CEE02CAB13A000A1EDDA /* MAS_Coding_ChallengeUITests.swift in Sources */,
+				7BBAC1862CAC9A4100EB49DB /* WeatherServiceTests.swift in Sources */,
+				7BBAC1842CAC98A700EB49DB /* WeatherViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,11 +353,6 @@
 			isa = PBXTargetDependency;
 			target = 7B76CEC02CAB139E00A1EDDA /* MAS Coding Challenge */;
 			targetProxy = 7B76CED22CAB13A000A1EDDA /* PBXContainerItemProxy */;
-		};
-		7B76CEDD2CAB13A000A1EDDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7B76CEC02CAB139E00A1EDDA /* MAS Coding Challenge */;
-			targetProxy = 7B76CEDC2CAB13A000A1EDDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -561,6 +487,8 @@
 				DEVELOPMENT_TEAM = 62RA2G4HF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "MAS Weather App";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
@@ -576,6 +504,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chaekwe.MAS-Coding-Challenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -593,6 +525,8 @@
 				DEVELOPMENT_TEAM = 62RA2G4HF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "MAS Weather App";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location access to provide accurate, real-time weather information for your current area.";
@@ -608,6 +542,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chaekwe.MAS-Coding-Challenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -654,42 +592,6 @@
 			};
 			name = Release;
 		};
-		7B76CEEC2CAB13A000A1EDDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 62RA2G4HF7;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chaekwe.MAS-Coding-ChallengeUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "MAS Coding Challenge";
-			};
-			name = Debug;
-		};
-		7B76CEED2CAB13A000A1EDDA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 62RA2G4HF7;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.chaekwe.MAS-Coding-ChallengeUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "MAS Coding Challenge";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -716,15 +618,6 @@
 			buildConfigurations = (
 				7B76CEE92CAB13A000A1EDDA /* Debug */,
 				7B76CEEA2CAB13A000A1EDDA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7B76CEEB2CAB13A000A1EDDA /* Build configuration list for PBXNativeTarget "MAS Coding ChallengeUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7B76CEEC2CAB13A000A1EDDA /* Debug */,
-				7B76CEED2CAB13A000A1EDDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

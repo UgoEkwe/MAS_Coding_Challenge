@@ -7,70 +7,90 @@
 
 import SwiftUI
 
+/*
+ WeatherView is the main view--I designed it to display both the current weather (if available) and recent searches.
+ I've used a ScrollView to allow for multiple weather cards, and I've implemented a loading state with skeleton views for a better user experience.
+ The search bar and unit toggle are placed at the top for easy access. I've also added an error handling mechanism with a custom alert view.
+ When placing a search, the user must click a suggestion from the presented list in the SearchOverlay.
+ I designed it like this to ensure the user doesn't add a city by mistake.
+ Each View and child-view has VoiceOver capability.
+*/
 struct WeatherView: View {
-    @StateObject var viewModel: WeatherViewModel
-    @AppStorage("selectedSystem") private var selectedSystem: String = "imperial"
+    @EnvironmentObject private var viewModel: WeatherViewModel
+    let colors: [Color] = Constants.currentWeatherBackgrounds
+    @State private var showAlert = false
     
     var body: some View {
         VStack {
-            HStack {
-                SearchBarView(searchTerm: $viewModel.query)
-                Spacer()
-                Button {
-                    selectedSystem = selectedSystem == "imperial" ? "metric" : "imperial"
-                } label: {
-                    Text(selectedSystem == "imperial" ? "°F" : "°C")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(.black)
+            VStack {
+                HStack {
+                    SearchBarView(searchTerm: $viewModel.query)
+                    Spacer()
+                    Button {
+                        viewModel.selectedSystem = viewModel.selectedSystem == "imperial" ? "metric" : "imperial"
+                    } label: {
+                        Text(viewModel.selectedSystem == "imperial" ? "°F" : "°C")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundStyle(Color(UIColor.systemIndigo))
+                    }
                 }
             }
             .padding()
-            ScrollView (showsIndicators: false) {
-                // would much rather have built a custom alert view for this and inject a description based on the error message
-                if viewModel.errorMessage != nil {
-                    Text("Sorry, we couldn't load the weather for that city. Please try again")
-                        .foregroundColor(.red)
-                        .padding()
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                viewModel.errorMessage = nil
-                            }
-                        }
-                }
-                
-                if let currentweather = viewModel.currentWeather {
-                    WeatherCardView(weather: currentweather, system: selectedSystem, color: .black.opacity(0.9))
-                        .foregroundStyle(Color.white)
-                        .overlay (alignment: .topTrailing) {
-                            Button {
-                                Task {
-                                    await viewModel.fetchWeatherForCurrentLocation()
+            
+            ScrollView(showsIndicators: false) {
+                if let currentWeather = viewModel.currentWeather {
+                    if viewModel.isLoading {
+                        WeatherCardSkeleton(color: Constants.darkBlack)
+                            .foregroundStyle(Color.white)
+                    } else {
+                        WeatherCardView(weather: currentWeather, system: viewModel.selectedSystem, color: Constants.darkBlack)
+                            .foregroundStyle(Color.white)
+                            .overlay(alignment: .topTrailing) {
+                                Button {
+                                    Task {
+                                        await viewModel.fetchWeatherForCurrentLocation()
+                                    }
+                                } label: {
+                                    Image(systemName: "location")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .foregroundStyle(Color.blue)
+                                        .padding([.top, .trailing], 10)
                                 }
-                            } label : {
-                                Image(systemName: "location")
-                                    .font(.system(size: 20, weight: .medium))
-                                    .foregroundStyle(Color.blue)
-                                    .padding([.top,.trailing], 10)
                             }
-                        }
+                    }
                 }
                 
-                if let selectedWeather = viewModel.weather {
-                    WeatherCardView(weather: selectedWeather, system: selectedSystem, color: Constants.darkBlack)
-                        .foregroundStyle(Color.white)
+                ForEach(Array(viewModel.recentList.enumerated()), id: \.offset) { index, forecast in
+                    if viewModel.isLoading {
+                        WeatherCardSkeleton(color: colors[index % colors.count])
+                    } else {
+                        WeatherCardView(weather: forecast, system: viewModel.selectedSystem, color: colors[index % colors.count])
+                    }
                 }
-                
-                if let lastWeather = viewModel.lastSearchWeather {
-                    WeatherCardView(weather: lastWeather, system: selectedSystem, color: Constants.darkBlack.opacity(0.8))
-                        .foregroundStyle(Color.white)
-                }
-                
             }
             .padding(.horizontal)
             
             Spacer()
         }
-        .overlay(SearchOverlay(viewModel: viewModel))
+        .overlay(SearchOverlay())
+        .onChange(of: viewModel.errorMessage, { old, new in
+            if new != nil {
+                showAlert = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    viewModel.errorMessage = nil
+                    showAlert = false
+                }
+            }
+        })
+        .overlay(
+            UIKitAlertView(
+                isPresented: $showAlert,
+                title: "Sorry",
+                message: "We couldn't load the weather for that city. Please try again."
+            )
+            .allowsHitTesting(false)
+        )
         .ignoresSafeArea(edges: .bottom)
     }
 }
+

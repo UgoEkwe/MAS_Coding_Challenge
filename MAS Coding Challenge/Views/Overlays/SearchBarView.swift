@@ -16,10 +16,12 @@ struct SearchBarView: View {
                 .foregroundColor(Color.white)
                 .frame(width: 22, height: 22)
                 .padding(.leading, 4)
+                .accessibility(hidden: true)
             ZStack(alignment: .leading) {
-                Text("Search for a city")
-                    .font(.system( size: 16))
+                Text("Search for a city or zip code")
+                    .font(.system(size: 16))
                     .foregroundColor(!searchTerm.isEmpty ? Color.clear : Color.white.opacity(0.5))
+                    .accessibility(hidden: true)
                 TextField("", text: $searchTerm, onEditingChanged: { editing in
                 }, onCommit: {
                     searchTerm = ""
@@ -27,7 +29,8 @@ struct SearchBarView: View {
                 })
                 .submitLabel(.done)
                 .foregroundStyle(Color.white)
-                .font(.system( size: 16))
+                .font(.system(size: 16))
+                .accessibilityLabel("Search for a city or zip code")
             }
             .padding(.vertical, 10)
         }
@@ -35,5 +38,8 @@ struct SearchBarView: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Constants.systemGrey)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Search bar")
+        .accessibilityHint("Enter a city name or zip code to search for weather")
     }
 }

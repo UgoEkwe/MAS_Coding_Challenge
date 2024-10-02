@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct SearchOverlay: View {
-    @ObservedObject var viewModel: WeatherViewModel
+    @EnvironmentObject private var viewModel: WeatherViewModel
 
     var body: some View {
         VStack {
@@ -17,7 +18,7 @@ struct SearchOverlay: View {
                     Button(action: {
                         Task {
                             hideKeyboard()
-                            await viewModel.fetchWeather(for: city)
+                            await viewModel.fetchWeatherForLocation(CLLocation(latitude: city.lat, longitude: city.lon))
                             viewModel.suggestions = []
                             viewModel.query = ""
                         }
@@ -25,7 +26,7 @@ struct SearchOverlay: View {
                         HStack {
                             Text(city.name)
                             Spacer()
-                            VStack (spacing: 0) {
+                            VStack(spacing: 0) {
                                 if let state = city.state {
                                     Text(state)
                                 }
@@ -33,11 +34,14 @@ struct SearchOverlay: View {
                             }
                         }
                     }
+                    .accessibilityLabel("\(city.name), \(city.state ?? ""), \(city.country)")
+                    .accessibilityHint("Double tap to select this location")
                 }
                 .listStyle(PlainListStyle())
             }
             Spacer()
         }
-        .padding(.top, 50)
+        .padding(.top, 65)
+        .accessibilityLabel("Search results")
     }
 }

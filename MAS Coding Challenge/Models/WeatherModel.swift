@@ -7,21 +7,35 @@
 
 import Foundation
 
-//MARK: Storing recent seacrhes
-struct RecentSearch: Codable {
-    let lat: Double
-    let lon: Double
-    let timestamp: Date
-}
+/*
+ I structured these models to closely match the API responses from OpenWeatherMap. The models include City, ZipResponse, WeatherResponse, and nested structures like Coord, Weather, Main, Wind, Rain, Clouds, and Sys. Each model is Codable to facilitate easy JSON parsing. I would have liked to use more of these properties like sunset and sunrise or gust, but couldn't find the space for them in the design.
+*/
 
 //MARK: City model bazsed on API response
-struct City: Identifiable, Decodable {
+struct City: Identifiable, Decodable, Hashable {
     var id: String { "\(name),\(country)" }
     let name: String
     let country: String
     let state: String?
     let lat: Double
     let lon: Double
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: City, rhs: City) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+//MARK: model for numeric queries
+struct ZipResponse: Decodable {
+    let zip: String
+    let name: String
+    let lat: Double
+    let lon: Double
+    let country: String
 }
 
 // MARK: - WeatherResponse

@@ -15,6 +15,7 @@ struct LocationPermissionView: View {
             Image(systemName: "location.circle")
                 .font(.system(size: 100))
                 .foregroundColor(.blue)
+                .accessibility(hidden: true)
             
             Text("Location Access")
                 .font(.title)
@@ -23,8 +24,21 @@ struct LocationPermissionView: View {
             Text("We need your location to provide accurate weather information. If you decline, we'll show weather for 5 major cities.")
                 .multilineTextAlignment(.center)
                 .padding()
+            
+            Button {
+                locationManager.requestLocationPermission()
+            } label: {
+                Text("Share Location")
+                    .font(.title3)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Capsule(style: .circular))
+            }
+            .accessibilityHint("Double tap to grant location access")
         }
         .padding()
-        .onAppear{locationManager.requestLocationPermission()}
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Location Access Request")
     }
 }
