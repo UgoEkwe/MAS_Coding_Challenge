@@ -14,7 +14,7 @@ Installation
     
     *   Key: “WeatherAPIKey”
         
-    *   Value:
+    *   Value: --Your OpenWeatherMap API Key--
         
 4.  Open the project in Xcode.
     
