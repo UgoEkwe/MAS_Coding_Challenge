@@ -31,7 +31,7 @@ struct WeatherView: View {
                     } label: {
                         Text(viewModel.selectedSystem == "imperial" ? "°F" : "°C")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundStyle(Color(UIColor.systemIndigo))
+                            .foregroundColor(Color(UIColor.systemIndigo))
                     }
                 }
             }
@@ -41,10 +41,10 @@ struct WeatherView: View {
                 if let currentWeather = viewModel.currentWeather {
                     if viewModel.isLoading {
                         WeatherCardSkeleton(color: Constants.darkBlack)
-                            .foregroundStyle(Color.white)
+                            .foregroundColor(Color.white)
                     } else {
                         WeatherCardView(weather: currentWeather, system: viewModel.selectedSystem, color: Constants.darkBlack)
-                            .foregroundStyle(Color.white)
+                            .foregroundColor(Color.white)
                             .overlay(alignment: .topTrailing) {
                                 Button {
                                     Task {
@@ -53,7 +53,7 @@ struct WeatherView: View {
                                 } label: {
                                     Image(systemName: "location")
                                         .font(.system(size: 20, weight: .medium))
-                                        .foregroundStyle(Color.blue)
+                                        .foregroundColor(Color.blue)
                                         .padding([.top, .trailing], 10)
                                 }
                             }
@@ -73,7 +73,7 @@ struct WeatherView: View {
             Spacer()
         }
         .overlay(SearchOverlay())
-        .onChange(of: viewModel.errorMessage, { old, new in
+        .onChange(of: viewModel.errorMessage, perform: { new in
             if new != nil {
                 showAlert = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 4) {

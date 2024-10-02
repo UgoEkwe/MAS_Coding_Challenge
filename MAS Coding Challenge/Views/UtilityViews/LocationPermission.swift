@@ -30,7 +30,7 @@ struct LocationPermissionView: View {
             } label: {
                 Text("Share Location")
                     .font(.title3)
-                    .foregroundStyle(.white)
+                    .foregroundColor(.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
                     .background(Capsule(style: .circular))

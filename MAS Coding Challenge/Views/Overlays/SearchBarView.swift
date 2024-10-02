@@ -28,7 +28,7 @@ struct SearchBarView: View {
                     hideKeyboard()
                 })
                 .submitLabel(.done)
-                .foregroundStyle(Color.white)
+                .foregroundColor(Color.white)
                 .font(.system(size: 16))
                 .accessibilityLabel("Search for a city or zip code")
             }
