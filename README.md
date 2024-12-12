@@ -1,4 +1,4 @@
-MASCodingChallenge Weather App
+Weather App
 ==============================
 
 Accessible iOS weather application with voiceover capabilities, providing real-time weather information.
@@ -6,7 +6,7 @@ Accessible iOS weather application with voiceover capabilities, providing real-t
 Installation
 ------------
 
-1.  Clone https://github.com/UgoEkwe/MAS_Coding_Challenge.git
+1.  Clone project
     
 2.  Create an APIKeys.plist file in the project root directory.
     
